@@ -32,23 +32,23 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    char *buf = malloc(src_stat.st_size);
-    if (buf == NULL) {
-        perror("malloc");
-        close(fd_source);
-        close(fd_destination);
-        exit(EXIT_FAILURE);
+    char buf[BUF_SIZE];
+    ssize_t nread, nwrite;
+
+    while ((nread = read(fd_source, buf, src_stat.st_size)) > 0) {
+        ssize_t total = 0;
+        while (total < nread) {
+            nwrite = write(fd_destination, buf, nread - total);
+                if (nwrite < 0) {
+                perror("Writing error");
+                exit(EXIT_FAILURE);
+            }
+            total += nwrite;
+        }
     }
 
-    int nread = read(fd_source, buf, src_stat.st_size);
-    if (nread < 1) {
+    if (nread < 0) {
         perror("Reading error");
-        exit(EXIT_FAILURE);
-    }
-
-    int nwrite = write(fd_destination, buf, nread);
-    if (nwrite < 0) {
-        perror("Writing error");
         exit(EXIT_FAILURE);
     }
 
