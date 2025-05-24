@@ -7,16 +7,17 @@
 
 #define ul unsigned long
 
-ul start_jiffies;
+int start_jiffies;
 
 /* is called when the module is loaded. */
 int simple_init(void) {
-    start_jiffies = get_jiffies_64();
+    start_jiffies = (int)jiffies;
 
     printk(KERN_INFO "Loading Kernel Module\n");
     printk(KERN_INFO "Golden ration prime: %lu\n", GOLDEN_RATIO_PRIME);
     printk(KERN_INFO "HZ: %lu\n", HZ);
-
+    printk(KERN_INFO "jiffies init: %lu\n", start_jiffies);
+    
     return 0;
 }
 
@@ -26,7 +27,9 @@ void simple_exit(void) {
     ul b = 24;
     printk(KERN_INFO "GCD(%lu, %lu) = %lu\n", a, b, gcd(a, b));
 
-    ul seconds = (get_jiffies_64() - start_jiffies) / HZ;
+    printk(KERN_INFO "jiffies exit: %lu\n", jiffies);
+    int current_jiffies = (int)jiffies;
+    ul seconds = (current_jiffies - start_jiffies) / HZ;
     printk(KERN_INFO "Loaded time (seconds): %lu\n", seconds);
     
     printk(KERN_INFO "Removing Kernel Module\n");
