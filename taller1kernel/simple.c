@@ -7,7 +7,7 @@
 
 #define ul unsigned long
 
-int start_jiffies;
+unsigned int start_jiffies;
 
 /* is called when the module is loaded. */
 int simple_init(void) {
@@ -27,7 +27,7 @@ void simple_exit(void) {
     ul b = 24;
     printk(KERN_INFO "GCD(%lu, %lu) = %lu\n", a, b, gcd(a, b));
 
-    int current_jiffies = (int)jiffies;
+    unsigned int current_jiffies = (int)jiffies;
     printk(KERN_INFO "jiffies exit: %i\n", current_jiffies);
     ul seconds = (current_jiffies - start_jiffies) / HZ;
     printk(KERN_INFO "Loaded time (seconds): %lu\n", seconds);
