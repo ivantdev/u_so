@@ -16,7 +16,7 @@ int simple_init(void) {
     printk(KERN_INFO "Loading Kernel Module\n");
     printk(KERN_INFO "Golden ration prime: %lu\n", GOLDEN_RATIO_PRIME);
     printk(KERN_INFO "HZ: %lu\n", HZ);
-    printk(KERN_INFO "jiffies init: %lu\n", start_jiffies);
+    printk(KERN_INFO "jiffies init: %i\n", start_jiffies);
     
     return 0;
 }
@@ -27,8 +27,8 @@ void simple_exit(void) {
     ul b = 24;
     printk(KERN_INFO "GCD(%lu, %lu) = %lu\n", a, b, gcd(a, b));
 
-    printk(KERN_INFO "jiffies exit: %lu\n", jiffies);
     int current_jiffies = (int)jiffies;
+    printk(KERN_INFO "jiffies exit: %i\n", current_jiffies);
     ul seconds = (current_jiffies - start_jiffies) / HZ;
     printk(KERN_INFO "Loaded time (seconds): %lu\n", seconds);
     
