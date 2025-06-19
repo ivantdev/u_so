@@ -88,6 +88,9 @@ int lsh_launch(char **args)
     pid = fork();
     if(pid == 0){ /* child process */
         if(execvp(args[0], args) == -1) perror("lsh");
+        // exec 
+        // v -> los argumentos son un vector, tiene que terminar ocn un elemento NULL
+        // p -> que busque en el PATH el programa (en caso que no haya ningún '/' en el comando a ejecutar)
         exit(EXIT_FAILURE);
     }else if(pid > 0){ /* parent process */
         if(!conc){
@@ -168,9 +171,14 @@ int lsh_history(char **args)
         char *command;
         if(strcmp(args[0], "!!") == 0){
             command = malloc(sizeof(history[cur_pos]));
+            // aqui funciona mal
+            printf("%s\n", command);
             strcat(command, history[cur_pos]);
             printf("%s\n", command);
             cmd_args = lsh_split_line(command);
+            for (int i = 0; cmd_args[i] != NULL; i++) {
+                printf("cmd_args[%d] = '%s'\n", i, cmd_args[i]);
+            }
             int i;
             for (i = 0; i < lsh_num_builtins(); i++){
                 if(strcmp(cmd_args[0], builtin_str[i]) == 0){
@@ -195,6 +203,8 @@ int lsh_history(char **args)
                 fprintf(stderr, "No such command in history\n");
                 exit(EXIT_FAILURE);
             }
+            // aqui funciona mal
+            printf("tamaño history[cur_pos]: %lu\n", sizeof(history[cur_pos]));
             command = malloc(sizeof(history[cur_pos]));
             strcat(command, history[offset]);
             cmd_args = lsh_split_line(command);
