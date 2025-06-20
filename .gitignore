@@ -3,3 +3,10 @@
 *.pptx
 *.mp4
 *.DS_Store
+*.ko
+*.cmd
+*.o
+*.mod
+*.mod.c
+*.order
+*.symvers
